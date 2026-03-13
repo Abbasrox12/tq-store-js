@@ -1,20 +1,24 @@
 const { Telegraf, Markup } = require('telegraf');
+const http = require('http');
 
-// التوكن الخاص بك
+// 1. نظام الحفاظ على استمرارية البوت (لـ Render المجاني)
+http.createServer((req, res) => {
+  res.write('TQ Store is Running!');
+  res.end();
+}).listen(process.env.PORT || 3000);
+
+// 2. إعدادات البوت
 const bot = new Telegraf('8701836458:AAEw6XiVJX9LeYzUwYMKe8kL5FKGPSbOl1c');
 
 bot.start((ctx) => {
-    // النص الفخم الذي طلبته مع المـدات الجمالية
-    const welcomeText = "🦅 **مـرحـبـاً بـك فـي مـتـجـر TQ سـتـور**\n\nالـوجـهـة الأولـى والأسـرع لـخـدمـات الـشـحـن الـرقـمـي\nاخـتـر الـقـسـم الـمـطـلـوب مـن الأسـفـل:";
-    
+    const welcomeText = "🦅 **مـرحـبـاً بـك فـي مـتـجـر TQ سـتـور**\n\nالـوجـهـة الأولـى والأسـرع لـخـدمـات الـشـحـن الـرقـمـي";
     ctx.replyWithMarkdown(welcomeText, 
         Markup.inlineKeyboard([
             [Markup.button.callback("بـبـجـي مـوبـايـل 🟢", "pb"), Markup.button.callback("يـلا لـودو 🟢", "ld")],
-            [Markup.button.callback("فـري فـايـر 🟢", "ff"), Markup.button.callback("مـوبـايـل لـيـجـنـد 🟢", "ml")],
-            [Markup.button.callback("📜 سـجـل الـطـلـبـات", "history"), Markup.button.callback("🎓 أكـاديـمـيـة الـشـحـن", "academy")],
-            [Markup.button.callback("🆘 الـدعـم الـفـنـي", "support")]
+            [Markup.button.callback("📜 سـجـل الـطـلـبـات", "history"), Markup.button.callback("🆘 الـدعـم", "support")]
         ])
     );
 });
 
-bot.launch().then(() => console.log("🚀 TQ Store is Online on Render!"));
+bot.launch();
+console.log("🚀 Bot is Online and Server is Listening!");
